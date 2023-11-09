@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import { console2, BaseScript } from "./Base.s.sol";
 
-import { IProxy } from "script/interfaces/IProxy.sol";
+import { IProxy } from "./interfaces/IProxy.sol";
 
 import { ERC1967Proxy } from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 

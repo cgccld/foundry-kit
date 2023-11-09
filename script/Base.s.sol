@@ -2,8 +2,8 @@
 pragma solidity ^0.8.17;
 
 import { console2, Script } from "forge-std/Script.sol";
-import { IScript } from "script/interfaces/IScript.sol";
-import { ErrorHandler } from "script/libraries/ErrorHandler.sol";
+import { IScript } from ".//interfaces/IScript.sol";
+import { ErrorHandler } from ".//libraries/ErrorHandler.sol";
 
 abstract contract BaseScript is Script, IScript {
     using ErrorHandler for *;
