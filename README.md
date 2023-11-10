@@ -109,4 +109,4 @@ Sample command run script
         $opts
 ```
 
-## License
+## [License](https://github.com/tasibii/boundry-deployment-kit/blob/main/license)
