@@ -1,18 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import { console2, BaseScript } from "./Base.s.sol";
+import {console2, BaseScript} from "./Base.s.sol";
 
-import { IProxy } from "./interfaces/IProxy.sol";
+import {IProxy} from "./interfaces/IProxy.sol";
 
-import { ERC1967Proxy } from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
+import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
-import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
+import {ProxyAdmin} from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 
-import {
-    ITransparentUpgradeableProxy,
-    TransparentUpgradeableProxy
-} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import {ITransparentUpgradeableProxy, TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
 enum Kind {
     Uups,
@@ -44,19 +41,28 @@ abstract contract BaseDeploy is BaseScript {
         console2.log("Current proxy kind: ", uint8(kind));
     }
 
-    function _defaultAdmin() internal virtual returns (address _admin) { }
+    function _defaultAdmin() internal virtual returns (address _admin) {}
 
-    function deployRaw(string memory filename, bytes memory args) public returns (address payable deployed) {
+    function deployRaw(
+        string memory filename,
+        bytes memory args
+    ) public returns (address payable deployed) {
         vm.resumeGasMetering();
         deployed = payable(deployCode(filename, args));
         vm.pauseGasMetering();
     }
 
-    function deployLogic(string memory filename) public returns (address payable deployed) {
+    function deployLogic(
+        string memory filename
+    ) public returns (address payable deployed) {
         deployed = deployRaw(filename, EMPTY_ARGS);
     }
 
-    function upgradeRaw(address payable proxy, address logic, bytes memory args) public {
+    function upgradeRaw(
+        address payable proxy,
+        address logic,
+        bytes memory args
+    ) public {
         if (kind == Kind.Uups) {
             _uupsUpgrade(proxy, logic, args);
         }
@@ -69,32 +75,49 @@ abstract contract BaseDeploy is BaseScript {
         upgradeRaw(proxy, logic, EMPTY_ARGS);
     }
 
-    function deployProxyRaw(string memory filename, bytes memory args) public returns (address payable proxy) {
+    function deployProxyRaw(
+        string memory filename,
+        bytes memory args
+    ) public returns (address payable proxy) {
         address logic = deployRaw(filename, "");
 
         if (kind == Kind.Uups) {
-            proxy = deployRaw("ERC1967Proxy.sol:ERC1967Proxy", abi.encode(logic, args));
+            proxy = deployRaw(
+                "ERC1967Proxy.sol:ERC1967Proxy",
+                abi.encode(logic, args)
+            );
         }
         if (kind == Kind.Transparent) {
             proxy = deployRaw(
-                "TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy", abi.encode(logic, admin(), args)
+                "TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy",
+                abi.encode(logic, admin(), args)
             );
         }
     }
 
-    function _uupsUpgrade(address payable proxy, address logic, bytes memory args) internal {
+    function _uupsUpgrade(
+        address payable proxy,
+        address logic,
+        bytes memory args
+    ) internal {
         vm.resumeGasMetering();
         IProxy(proxy).upgradeToAndCall(logic, args);
         vm.pauseGasMetering();
     }
 
-    function _transparentUpgrade(address payable proxy, address logic, bytes memory args) internal {
+    function _transparentUpgrade(
+        address payable proxy,
+        address logic,
+        bytes memory args
+    ) internal {
         address owner = ProxyAdmin(admin()).owner();
         require(owner == msg.sender, "deployer != owner of ProxyAdmin");
 
         vm.resumeGasMetering();
-        proxy =
-            deployRaw("TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy", abi.encode(logic, admin(), args));
+        proxy = deployRaw(
+            "TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy",
+            abi.encode(logic, admin(), args)
+        );
         vm.pauseGasMetering();
     }
 }
