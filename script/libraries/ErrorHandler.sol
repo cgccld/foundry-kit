@@ -4,10 +4,7 @@ pragma solidity ^0.8.17;
 library ErrorHandler {
     error ExternalCallFailed();
 
-    function handleRevert(
-        bool status,
-        bytes memory returnOrRevertData
-    ) internal pure {
+    function handleRevert(bool status, bytes memory returnOrRevertData) internal pure {
         assembly {
             if iszero(status) {
                 let revertLength := mload(returnOrRevertData)
