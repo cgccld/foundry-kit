@@ -20,12 +20,6 @@ enum Kind {
     NonProxy
 }
 
-struct Result {
-    address proxyOrDeployed;
-    address logic;
-    Kind kind;
-}
-
 abstract contract BaseDeploy is BaseScript {
     address $admin;
     Kind internal kind;
@@ -93,8 +87,7 @@ abstract contract BaseDeploy is BaseScript {
         require(owner == msg.sender, "deployer != owner of ProxyAdmin");
 
         vm.resumeGasMetering();
-        proxy =
-            deployRaw("TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy", abi.encode(logic, admin(), args));
+        IProxy(proxy).upgradeToAndCall(logic, args);
         vm.pauseGasMetering();
     }
 }
