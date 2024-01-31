@@ -17,8 +17,8 @@ abstract contract BaseScript is Script, IScript {
     vm.stopBroadcast();
   }
 
-  modifier logFn(string memory functionName) {
-    _logFn(functionName);
+  modifier logFn(string memory description) {
+    _logFn(description);
     _;
   }
 
@@ -30,8 +30,8 @@ abstract contract BaseScript is Script, IScript {
 
   function _postCheck() internal pure virtual {}
 
-  function _logFn(string memory functionName) internal pure {
-    string memory log = string.concat("> ", functionName, "...");
+  function _logFn(string memory description) internal pure {
+    string memory log = string.concat("> ", description, "...");
     console2.log(StdStyle.blue(log));
   }
 }
