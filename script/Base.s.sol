@@ -2,7 +2,7 @@
 pragma solidity ^0.8.23;
 
 import "../lib/forge-std/src/Script.sol";
-import {ErrorHandler} from "src/libraries/ErrorHandler.sol";
+import {ErrorHandler} from "../src/libraries/ErrorHandler.sol";
 
 interface IScript {
   function run(bytes calldata callData) external;
