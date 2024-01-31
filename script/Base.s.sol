@@ -31,7 +31,7 @@ abstract contract BaseScript is Script, IScript {
   function _postCheck() internal pure virtual {}
 
   function _log(string memory description) internal pure {
-    string memory log = string.concat("> ", description, "...");
-    console2.log(StdStyle.blue(log));
+    string memory formattedLog = string.concat("> ", description, "...");
+    console2.log(StdStyle.blue(formattedLog));
   }
 }
