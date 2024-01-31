@@ -4,11 +4,8 @@ pragma solidity ^0.8.23;
 import "../lib/forge-std/src/Script.sol";
 import {ErrorHandler} from "../src/libraries/ErrorHandler.sol";
 
-interface IScript {
-  function run(bytes calldata callData) external;
-}
 
-abstract contract BaseScript is Script, IScript {
+abstract contract BaseScript is Script {
   using ErrorHandler for *;
 
   modifier broadcast() {
@@ -20,12 +17,6 @@ abstract contract BaseScript is Script, IScript {
   modifier log(string memory description) {
     _log(description);
     _;
-  }
-
-  function run(bytes calldata callData) external {
-    (bool success, bytes memory data) = address(this).delegatecall(callData);
-    success.handleRevert(msg.sig, data);
-    _postCheck();
   }
 
   function _postCheck() internal pure virtual {}
