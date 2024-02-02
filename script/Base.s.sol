@@ -2,7 +2,7 @@
 pragma solidity ^0.8.23;
 
 import "forge-std/Script.sol";
-import {ErrorHandler} from "src/ErrorHandler.sol";
+import {ErrorHandler} from "../src/ErrorHandler.sol";
 
 
 abstract contract BaseScript is Script {
