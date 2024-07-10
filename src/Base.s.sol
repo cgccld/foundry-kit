@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
-import "../lib/forge-std/src/Script.sol";
+import "@forge-std-1.9.1/src/Script.sol";
 
 abstract contract BaseScript is Script {
     modifier broadcast() {

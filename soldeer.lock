@@ -1,0 +1,6 @@
+
+[[dependencies]]
+name = "forge-std"
+version = "1.9.1"
+source = "https://github.com/foundry-rs/forge-std/archive/refs/tags/v1.9.1.zip"
+checksum = "67e3523bb8bf3b085c8f28257c7c57e4b0e36eab99272437f89b408653803bb6"
