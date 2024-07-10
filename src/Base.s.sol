@@ -22,7 +22,7 @@ abstract contract BaseScript is Script {
         console2.log(StdStyle.blue(formattedLog));
     }
 
-    function _explorerUrl() internal returns (string memory) {
+    function _explorerUrl() internal view returns (string memory) {
         uint256 chainId = block.chainid;
 
         // etherscan
