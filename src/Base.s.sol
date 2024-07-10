@@ -39,11 +39,11 @@ abstract contract BaseScript is Script {
         if (chainId == 43113) return "https://testnet.snowtrace.io/";
         // op
         if (chainId == 10) return "https://optimistic.etherscan.io/";
-        if (chainId == 11155420) return "https://sepolia-optimism.etherscan.io/";
-
+        if (chainId == 11155420)
+            return "https://sepolia-optimism.etherscan.io/";
+        // arbitrum
         if (chainId == 42161) return "https://arbiscan.io/";
         if (chainId == 421614) return "https://sepolia.arbiscan.io/";
-
         else return "";
     }
 }
